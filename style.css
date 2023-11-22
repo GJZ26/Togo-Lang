@@ -1,0 +1,292 @@
+/* GENERAL STYLES SETTING */
+
+@font-face {
+    font-family: Montserrat;
+    src: url('./Montserrat-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: 'Jet Brains Mono';
+    src: url('./JetBrainsMono[wght].ttf');
+}
+
+*:not(ul, li) {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --scrollbar-color: rgba(255, 255, 255, 0.062);
+
+    --doc-bg-color: #232323;
+    --doc-text-color: #e5e5e5;
+    --code-in-doc-bg: #393939;
+
+    --editor-conf-bg: rgb(43, 43, 43);
+    --editor-conf-txt: white;
+    --editor-conf-opt: rgb(31, 31, 31);
+    --editor-conf-opt-hover: rgb(67, 67, 67);
+
+    --editor-bg-color-focused: #2c2a43;
+    --editor-bg-color: #25233d;
+    --editor-default-text-color: rgb(232, 232, 232);
+
+    --keywor-color: rgb(255, 196, 253);
+    --definition-name: rgb(125, 177, 255);
+    --chars-color: rgb(150, 171, 255);
+    --typo-color: rgb(128, 215, 255);
+    --variables-color: rgb(255, 224, 156);
+
+}
+
+/* PAGE STYLE */
+
+body {
+    display: flex;
+}
+
+/* INFO SECTION STYLES */
+div.info {
+    --side-padding: 40px;
+    --top-padding: 15px;
+
+    padding: var(--top-padding) var(--side-padding);
+
+    max-width: calc(50vw - (var(--side-padding)*2));
+    max-height: calc(100vh - (var(--top-padding)*2));
+    overflow-y: scroll;
+
+    font-family: 'Montserrat';
+
+    background-color: var(--doc-bg-color);
+    color: var(--doc-text-color);
+
+    cursor: default;
+}
+
+div.info h1,
+div.info h2 {
+    margin-bottom: 12px;
+    margin-top: 3px;
+}
+
+div.info>h3,
+div.info>p {
+    margin-bottom: 10px;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 100px;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: var(--scrollbar-color);
+}
+
+code {
+    --code-doc-margin: 20px;
+    font-family: 'Jet Brains Mono';
+    background-color: var(--code-in-doc-bg);
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 3px;
+    display: block;
+    margin: calc(var(--code-doc-margin) - 8px) 0 var(--code-doc-margin);
+    padding: 5px 5px;
+}
+
+div.info>p>code,
+div.info>h1>code {
+    display: inline;
+    padding: 0px 4px;
+    margin: 0;
+}
+
+/* PANEL EDITOR STYLES */
+div.editor-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Montserrat';
+    width: 50%;
+}
+
+div.editor-panel>div.controls {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 3px;
+    background-color: var(--editor-conf-bg);
+}
+
+div.editor-panel>div.controls>div {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    width: auto;
+    padding: 4px 10px;
+    cursor: pointer;
+    flex: 1;
+    color: var(--editor-conf-txt);
+    background-color: var(--editor-conf-opt);
+}
+
+
+div.editor-panel>div.controls>div:hover {
+    background-color: var(--editor-conf-opt-hover);
+}
+
+div.editor-panel>div.editor {
+    background-color: var(--editor-bg-color);
+    color: var(--editor-default-text-color);
+    flex: 1;
+    overflow-y: scroll;
+    padding: 10px 0;
+    font-family: 'Jet Brains Mono';
+    font-size: 15px;
+}
+
+div.editor-panel>div.editor:focus {
+    outline: none;
+    border: none;
+}
+
+div.editor-panel > div.editor > div {
+    padding-left: 30px;
+}
+
+div.editor-panel > div.editor > div:foc {
+    color: red;
+}
+
+div.editor-panel > div.editor > div::before {
+    position: absolute;
+    content: attr(line);
+    translate: -30px 0;
+    opacity: 0.2;
+    text-align: right;
+    width: 22px;
+}
+
+div.editor-panel > div.editor > div::after {
+    content: attr(placeholder);
+    opacity: 0.2;
+    font-weight: 100;
+    /* font-style: italic; */
+}
+
+div.editor-panel > div.editor > div.active::after {
+    font-size: 1px;
+    opacity: 0;
+    font-weight: 100;
+}
+
+div.editor-panel > div.editor > div:focus{
+    outline: 0;
+    border: 0;
+    background-color: var(--editor-bg-color-focused);
+}
+
+div.editor-panel>div.console {
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    padding: 3px 10px;
+    font-size: 12px;
+}
+
+span.red{
+    color: red;
+}
+
+/* body{
+    display: flex;
+    min-height: 100vh;
+    min-width: 100%;
+    overflow-y: hidden;
+}
+
+div.info, div.editor{
+    width: 50%;
+}
+
+div.info{
+    padding: 10px 40px;
+    background-color: var(--doc-bg-color);
+    color: var(--doc-text-color);
+    font-family: 'Montserrat';
+    font-weight: 500;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+div.info > h1{
+    text-transform: uppercase;
+    margin: 20px 0 15px;
+}
+
+div.info > h2{
+    margin: 24px 0 8px;
+}
+
+div.info > ul{
+    font-style: italic;
+    color: var(--doc-text-color);
+    font-size: 13px;
+    margin-left: 20px;
+}
+
+div.info > p{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+code{
+    font-family: 'Jet Brains Mono';
+    font-size: 12px;
+    background-color: var(--code-in-doc-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-variant-ligatures: none;
+}
+
+div.info > code{
+    display: block;
+    min-width: 150px;
+    margin-bottom: 12px;
+    padding: 5px 10px;
+}
+
+div.editor{
+    font-family: 'Jet Brains Mono';
+    font-weight: 200;
+    color: var(--editor-default-text-color);
+    background-color: var(--editor-bg-color);
+    padding: 8px;
+}
+
+div.editor  .keyword{
+    color: var(--keywor-color);
+}
+
+div.editor  .defname{
+    color: var(--definition-name);
+}
+
+div.editor  .char{
+    color: var(--chars-color);
+}
+
+div.editor  .typo{
+    color: var(--typo-color);
+}
+
+div.editor  .var{
+    color: var(--variables-color);
+} */
