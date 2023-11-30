@@ -1,9 +1,13 @@
 const ligature_btn = document.getElementById("ligature-btn");
 const editor = document.getElementById("editor")
-const embConsole = document.getElementById("console")
 const autocode = document.getElementById("autocode")
 const validateBtn = document.getElementById('validate')
 const deleteBtn = document.getElementById('borrar')
+const out = document.getElementById('output')
+const stack = document.getElementById('stack')
+
+stack.textContent = ""
+out.textContent = ""
 
 ligature_btn.addEventListener('click', (e) => {
     if (e.target.getAttribute("checked") === "false") {
@@ -17,7 +21,7 @@ ligature_btn.addEventListener('click', (e) => {
     e.target.setAttribute("checked", !(e.target.getAttribute("checked") === "true"))
 })
 
-deleteBtn.addEventListener('click',()=>{
+deleteBtn.addEventListener('click', () => {
     editor.innerHTML = ""
     add_new_paragraph()
 })
@@ -25,7 +29,6 @@ deleteBtn.addEventListener('click',()=>{
 function loadEditor() {
     editor.innerHTML = ""
     add_new_paragraph()
-    embConsole.textContent = "Presione 'validar', en el panel de arriba para comprobar tu código."
     autocode.addEventListener('click', () => {
         loadPreBuildCode()
     })
@@ -43,128 +46,6 @@ function loadPreBuildCode() {
         editor.appendChild(paragraph)
     })
 }
-
-// function validar() {
-//     embConsole.textContent = "Validando codigo..."
-
-//     const functions_typos = {
-//         void: 'void',
-//         boolean: 'bool',
-//         string: 'str',
-//         nummeric: 'num'
-//     }
-
-//     const varibles_typos = {
-//         boolean: 'bool',
-//         string: 'str',
-//         numeric: 'num'
-//     }
-
-//     const logic_operators = {
-//         greater_than: '>',
-//         lower_than: '<',
-//         equal_to: '==',
-//         not_equal_to: '!='
-//     }
-
-//     const increment_operator = {
-//         increment: '++',
-//         decrement: '--'
-//     }
-
-//     const scoped_characters = {
-//         parenthesis_char: {
-//             open: '(',
-//             closed: ')'
-//         },
-//         brackets_char: {
-//             open: '{',
-//             closed: '}'
-//         },
-//         single_quoatation_char: {
-//             open: "'",
-//             closed: "'"
-//         },
-//         double_quoatation_char: {
-//             open: '"',
-//             closed: '"'
-//         }
-//     }
-
-//     const admited_value = {
-//         numeric: '/^(0(\.\d+)?|([1-9]\d*)(\.\d+)?)$/',
-//         string: '/^\d+$/',
-//         boolean: '/^(true|false)$/',
-//         common_name: '/^[a-zA-Z][a-zA-Z0-9]*$/'
-//     }
-
-//     const delimiter_characters = {
-//         asignation_char: ':',
-//         list_char: ',',
-//         end_line_char: ';'
-//     }
-
-//     const structures = {
-//         numeric_variable_definition: {
-//             name: 'numeric_variable_definition',
-//             type: 'variable',
-//             patterns: [
-//                 [
-//                     varibles_typos['numeric'],
-//                     admited_value['common_name'],
-//                     delimiter_characters['asignation_char'],
-//                     admited_value['numeric'],
-//                     delimiter_characters['end_line_char']
-//                 ]
-//             ]
-//         },
-//         string_variable_definition: {
-//             name: 'string_variable_definition',
-//             type: 'variable',
-//             patterns: [
-//                 [
-//                     varibles_typos['string'],
-//                     admited_value['common_name'],
-//                     delimiter_characters['asignation_char'],
-//                     admited_value['string'],
-//                     delimiter_characters['end_line_char']
-//                 ]
-//             ]
-//         },
-//         boolean_variable_definition: {
-//             name: 'boolean_variable_definition',
-//             type: 'variable',
-//             patterns: [
-//                 [
-//                     varibles_typos['boolean'],
-//                     admited_value['common_name'],
-//                     delimiter_characters['asignation_char'],
-//                     admited_value['boolean'],
-//                     delimiter_characters['end_line_char']
-//                 ]
-//             ]
-//         },
-//         function_declaration: {
-//             name: 'boolean_variable_definition',
-//             type: 'variable',
-//             patterns: [
-//                 [
-//                     varibles_typos['boolean'],
-//                     admited_value['common_name'],
-//                     delimiter_characters['asignation_char'],
-//                     admited_value['boolean'],
-//                     delimiter_characters['end_line_char']
-//                 ]
-//             ]
-//         }
-//     }
-
-// }
-
-/** AUTOMATONS */
-
-
-
 
 validateBtn.addEventListener('click', () => {
     const codeAsArray = []
@@ -267,7 +148,7 @@ const codes = [
         '}'
     ],
     [
-        'num numero: 1;'
+        'str numero: "Hola mundo";'
     ],
     [
         'num numero: true;'
@@ -289,7 +170,7 @@ const codes = [
         '    }',
         '}',
         'num d : 10;',
-        'if "aldo"    =="eldo"{',
+        'if aldo    == eldo{',
         '    str e : "pepe";',
         '}',
         'for(foo: 1   , foo< 5,foo++){',
@@ -311,109 +192,9 @@ const codes = [
 ]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function inputHandler() {
-
-//     if (editor.children.length == 0) {
-//         emptyInputHandler()
-//     }
-//     removeWhiteSpace()
-
-//     if (window.getSelection().focusNode.nodeName === "#text") {
-//         if (!window.getSelection().focusNode.parentNode.classList.contains("active")) {
-//             window.getSelection().focusNode.parentNode.classList.add("active")
-//         }
-//     }
-
-//     for (let i = 0; i < editor.children.length; i++) {
-//         editor.children[i].setAttribute("line", i + 1)
-//     }
-
-// }
-
-// function keyPressHandler(e) {
-//     if (e.key === "Enter" && editor.children.length === 1) {
-//         editor.children[0].classList.add("active")
-//     }
-
-//     if(e.key === "Escape"){
-//         if(window.getSelection().focusNode.nodeName === "#text"){
-//             let b = window.getSelection().focusNode.textContent.split(" ")
-//             let a = document.createElement('div')
-//             for(let i = 0; i < b.length; i ++){
-//                 let span = document.createElement('span')
-//                 span.classList.add("red")
-//                 span.textContent = b[i] + " "
-//                 a.appendChild(span)
-//             }
-
-//             let ass = window.getSelection().focusOffset
-//             window.getSelection().focusNode.parentNode.innerHTML = a.innerHTML
-//             const sel = new Range()
-//             sel.setStart(window.getSelection().focusNode.parentNode, ass)
-//             console.log(window.getSelection().focusOffset)
-//         }
-//     }
-// }
-
-// function emptyInputHandler() {
-//     const div = document.createElement('div')
-//     div.setAttribute("line", editor.children.length + 1);
-//     div.textContent = "."
-//     div.setAttribute('placeholder', "Haz click acá para comenzar...")
-//     editor.textContent = ""
-//     editor.appendChild(div)
-//     const selection = new Range()
-//     selection.setStart(div, 0)
-//     selection.setEnd(div, 1)
-//     selection.deleteContents()
-// }
-
-// function removeWhiteSpace() {
-//     if (window.getSelection().focusNode.childNodes.length > 0) {
-//         let itemsToDelete = []
-//         for (let i = 0; i < window.getSelection().focusNode.childNodes.length; i++) {
-//             if (window.getSelection().focusNode.childNodes[i].nodeName === "BR") {
-//                 itemsToDelete.push(window.getSelection().focusNode.childNodes[i])
-//             }
-//         }
-//         for (let j = 0; j < itemsToDelete.length; j++) {
-//             window.getSelection().focusNode.removeChild(itemsToDelete[j])
-//         }
-//     }
-// }
-
-// function colorizedText(){
-//     const node = window.getSelection().focusNode
-
-//     if(node.nodeName === "#text"){
-//         let text = node.textContent.split(" ")
-//         text.map((word)=>{
-//             console.log(word)
-//         })
-//     }
-// }
+loadPreBuildCode()
+const codeAsArray = []
+for (let i = 0; i < editor.children.length; i++) {
+    codeAsArray.push(editor.children[i].textContent)
+}
+validar(codeAsArray)

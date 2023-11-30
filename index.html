@@ -9,207 +9,268 @@
 </head>
 
 <body>
-    <div class="info">
-        <!-- LANGUAGE INFORMATION AND DETAILS -->
-        <h1>Togo Lang <code>Gramática</code></h1>
-        <p>Togo, es un lenguaje de programación pensado y diseñado para ser fácil de leer, escribir y entender, con el
-            único propósito académico, para la asignatura de <strong>Leguajes y Autómatas</strong> de la carrera de IS
-            de la <strong>Universidad Politécnica de Chiapas</strong>.</p>
-        <p>Está basado en lenguajes de programación como <strong>Go</strong>, <strong>Python</strong> y
-            <strong>Javascript</strong>.
-        </p>
-        <p>En esta sección verás cómo es la gramática de cuatro estructuras del lenguaje, y en el panel derecho, podrás
-            escribir y probar el lenguaje.</p>
-        <h2>Variables</h2>
-        <p>La declaración de variables siguen la siguiente estructura:</p>
-        <code>type name: value;</code>
-        <p>Donde <code>type</code> puede ser algunos de los tipos de variable permitidas en Togo, como:
-            <code>num</code>, <code>str</code>, <code>bool</code>.
-        </p>
-        <p>Ahora, <code>name</code> hace referencia al nombre que se le asignará a la variable, este puede ser cualquier
-            nombre alfanumérico, que no empiece con un dígito, por ejemplo: <code>counter1</code> es un nombre de
-            variable válido, sin embargo, <code>2counter?</code> es un nombre de variable inválido, ya que contiene
-            carácteres que no son alfanuméricos y empieza con un dígito.</p>
-        <p>Cada declaración de variable debe finalizar con punto y coma (<code>;</code>) para que pueda ser leido
-            correctamente.</p>
-        <h3>Tipo: str</h3>
-        <p>Este tipo es para cadena de texto o carácteres únicos, es decir, únicamente admite asignación de tipo
-            caracter alfanumerico dentro de dobles comillas ( <code>""</code> ), como los siguientes ejemplos.</p>
-        <code>
-            str name: "Raúl"; <br>
-            str ageAsString: "12";
+    <div class="top">
+        <div class="info">
+            <!-- LANGUAGE INFORMATION AND DETAILS -->
+            <h1>Togo Lang <code>Gramática</code></h1>
+            <p>Togo, es un lenguaje de programación pensado y diseñado para ser fácil de leer, escribir y entender, con
+                el
+                único propósito académico, para la asignatura de <strong>Leguajes y Autómatas</strong> de la carrera de
+                IS
+                de la <strong>Universidad Politécnica de Chiapas</strong>.</p>
+            <p>Está basado en lenguajes de programación como <strong>Go</strong>, <strong>Python</strong> y
+                <strong>Javascript</strong>.
+            </p>
+            <p>En esta sección verás cómo es la gramática de cuatro estructuras del lenguaje, y en el panel derecho,
+                podrás
+                escribir y probar el lenguaje.</p>
+            <h2>Variables</h2>
+            <p>La declaración de variables siguen la siguiente estructura:</p>
+            <code>type name: value;</code>
+            <p>Donde <code>type</code> puede ser algunos de los tipos de variable permitidas en Togo, como:
+                <code>num</code>, <code>str</code>, <code>bool</code>.
+            </p>
+            <p>Ahora, <code>name</code> hace referencia al nombre que se le asignará a la variable, este puede ser
+                cualquier
+                nombre alfanumérico, que no empiece con un dígito, por ejemplo: <code>counter1</code> es un nombre de
+                variable válido, sin embargo, <code>2counter?</code> es un nombre de variable inválido, ya que contiene
+                carácteres que no son alfanuméricos y empieza con un dígito.</p>
+            <p>Cada declaración de variable debe finalizar con punto y coma (<code>;</code>) para que pueda ser leido
+                correctamente.</p>
+            <h3>Tipo: str</h3>
+            <p>Este tipo es para cadena de texto o carácteres únicos, es decir, únicamente admite asignación de tipo
+                caracter alfanumerico dentro de dobles comillas ( <code>""</code> ), como los siguientes ejemplos.</p>
+            <code>
+                str name: "Raúl"; <br>
+                str ageAsString: "12";
+    
+            </code>
+            <h3>Tipo: num</h3>
+            <p>Este tipo admite únicamente valores numéricos, con o sin puntos decimales, como se muestran a
+                continuación.
+            </p>
+            <code>
+                num numberOfCars: 12;<br>
+                num salary: 123.09;
+            </code>
+            <p>En caso de ser números decimales, el valor de la variable no debe empezar con un punto, en su lugar, debe
+                ser
+                colocado el valor de 0, seguido de los decimales que se desea representar, por ejemplo:</p>
+            <code>
+                num goodVariable: 0.123;<br>
+                num badVariable: .123;
+            </code>
+            <p>En este caso, el editor mostrará un error en la linea 2 del código, ya que el valor de la definición de
+                la
+                variable numérica empieza con un punto.</p>
+            <h3>Tipo: bool</h3>
+            <p>Las variables de tipo booleana (<code>bool</code>) solo pueden tener dos valores: <code>true</code> y
+                <code>false</code>, por lo que asignarle un valor distinto a este, le maracará un error de sintaxis.
+            </p>
+            <h3>Ejemplos</h3>
+            <code>
+                str name: "Pepe"; <br>
+                num age: 30.01; <br>
+                bool married: true;
+            </code>
+            <h2>Funciones</h2>
+            <p>La estructura principal de la funciones es la siguiente:</p>
+            <code>
+                fn name(type param, ...):typereturn{ [code] }
+            </code>
+            <p>El símbolo <code>fn</code>, es una palabra clave reservada, utilizada definir una función, mientras que
+                <code>name</code> es el nombre de la función, que al igual que los nombres de variable, puede ser
+                cualquier
+                nombre alfanumérico, que no empiece con un dígito.
+            </p>
+            <p>Posteriormente, se localizan los parámetros de la función, que van encerrados entre símbolos de
+                parentesis
+                (<code>()</code>), y dentro, los parámetros tienen la siguiente estructura: <code>type name</code>,
+                donde
+                <code>type</code> corresponde al tipo de parámetro que recibirá la función, que pueden ser los mismos
+                tipos
+                que tienen las variables: <code>num</code>, <code>str</code> y <code>bool</code>; y <code>name</code>,
+                que
+                corresponde al nombre del parámetro, que puede ser cualquiera, siempre que contenga únicamente
+                carácteres
+                alfanuméricos y noo empiece con dígito.
+            </p>
+            <p>Una función puede o no tener parámetros al momento de su definició, así que una función puede verse de la
+                siguiente forma: <code>fn suma(int num1, int numb2):num{}</code> o verse así:
+                <code>fn saludar():void{}</code> y están definidas de forma correcta.
+            </p>
+            <p>Despues de declarar los parámetros de la función, y de haber cerrado el símbolo de parentesis
+                (<code>)</code>), llega la hora de definir el tipo de retorno de la función, es decir, que tipo de dato
+                va a
+                retornar la función tras su ejecución. Esto se define usando dos puntos (<code>:</code>), seguido del
+                tipo,
+                que en caso de la funciones, pueden ser las mismas que las usadas en la variables: <code>num</code>,
+                <code>str</code> y <code>bool</code>, más un nuevo tipo vacío, identificado con la palabra clave
+                <code>void</code>.
+            </p>
+            <p>Finalmente, el contenido del código, representado en el ejemplo como <code>[code]</code>, se escribe
+                dentro
+                de llaves (<code>{}</code>), el contenido puede ser cualquiera de las estructuras mostradas en este
+                documentos, como otras funciones, variables, loops y/o condicionales.</p>
+            <h3>Ejemplos</h3>
+            <code>
+                fn sumar(num a, num b):num { [code] } <br>
+                fn saludar():void { [code] } <br>
+                fn setPassword(str pwd):void { [code] }
+            </code>
+            <h2>Condicionales</h2>
+            <p>Las condicionales en Togo tienen la siguiente estructura:</p>
+            <code>if var op var { [code] }</code>
+            <p>Donde <code>if</code> es la palabra clave reservada para definir una condicional. La clave
+                <code>var</code>
+                puede ser un nombre de varible declarada con anterioridad, un string o un número.</p>
+            <p>La referencia <code>op</code> hace referencia a los operadores lógicos admitidos en Togo, como pueden ser
+                <code>></code>, <code><</code>, <code>==</code>, <code>!=</code>.
+            </p>
+            <p>Y por último, dentro de las llaves (<code>{}</code>) podrá ir cualquier otra instrucción.</p>
+            <h3>Ejemplos</h3>
+            <code>
+                if age > limit { [code] } <br>
+                if 12 == 15 { [code] } <br>
+                if "algo" != "alga" { [code] }
+            </code>
+            <h2>Ciclo <em>for</em></h2>
+            <p>Togo permite una única forma te iteración, que es a través un ciclo <code>for</code>, el cual sigue la
+                siguiente estructura:</p>
+            <code>
+                for(iterable: initial, iterable op goal, iterable increment){ [code] }
+            </code>
+            <p>Donde <code>for</code> es la palabra clave reservada para iniciar un ciclo, luego continua con la
+                declaración
+                de las variables iterables, que van dentro de paratesis (<code>()</code>), y en la referencia
+                <code>iterable</code>, damos a entender el valor inicial de nuestra variable que será con la que se
+                iterarás, esta pueda ser definida dentro del ciclo o únicamente llamada.
+            </p>
+            <p>En caso de definirla dentro del ciclo, el tipo de variable se omite ya que el tipo <code>num</code> está
+                implícito. Quedando un código como el siguiente:</p>
+            <code>
+                for(alumno: 0, alumno < 30, alumno++){ [code] }
+            </code>
+            <p>O bien, puedes poner el nombre de una sola variable, que ya haya sido declarada para usarla dentro del
+                for,
+                como se muestra a continuación: </p>
+            <code>
+                for(alumno, alumno < 30, alumno++){ [code] }
+            </code>
+            <p>Siguiendo con la estructura del for, tenemos la parte de <code>iterable op goal</code>, que hace
+                referencia
+                al valor donde el ciclo deberá detenerse, donde <code>iterable</code> es el valor que definimos como
+                iterador inicial, <code>op</code> hace referencia al operador lógico, que son los mismos que usan dentro
+                de
+                las condicionales: <code>></code>, <code><</code>, <code>==</code>, <code>!=</code>; y <code>goal</code>
+                es
+                el valor al cual se debe de comparar el iterable para que termine el ciclo, que puede ser otra variable,
+                o
+                un numero escrito, como se muestra en el siguiente segmento de código:</p>
+            <code>
+                for(alumno, alumno < 30, alumno++){ [code] } 
+                <!-- for(alumno, alumno < 30, totalDeAlumno){ [code] } -->
+            </code>
+            <p>Luego continuamos con la sección de <code>iterator increment</code>, donde <code>increment</code> hace
+                referencia a los operadores de incremento y decremento de Togo, que son <code>++</code> y
+                <code>--</code>.
+            </p>
+            <h3>Ejemplos</h3>
+            <code>
+                for(foo: 1, foo < 5, foo++){ [code] } <br>
+                <!-- for(foo, foo > bar, foo--){ [code] } -->
+            </code>
+            <h2>Autores</h2>
+            <p>Lenguaje diseñado y programado por:</p>
+            <ul>
+                <li>Adolfo González Juárez</li>
+                <li>Leonardo Toledo Velazco</li>
+            </ul>
+        </div>
 
-        </code>
-        <h3>Tipo: num</h3>
-        <p>Este tipo admite únicamente valores numéricos, con o sin puntos decimales, como se muestran a continuación.
-        </p>
-        <code>
-            num numberOfCars: 12;<br>
-            num salary: 123.09;
-        </code>
-        <p>En caso de ser números decimales, el valor de la variable no debe empezar con un punto, en su lugar, debe ser
-            colocado el valor de 0, seguido de los decimales que se desea representar, por ejemplo:</p>
-        <code>
-            num goodVariable: 0.123;<br>
-            num badVariable: .123;
-        </code>
-        <p>En este caso, el editor mostrará un error en la linea 2 del código, ya que el valor de la definición de la
-            variable numérica empieza con un punto.</p>
-        <h3>Tipo: bool</h3>
-        <p>Las variables de tipo booleana (<code>bool</code>) solo pueden tener dos valores: <code>true</code> y
-            <code>false</code>, por lo que asignarle un valor distinto a este, le maracará un error de sintaxis.
-        </p>
-        <h3>Ejemplos</h3>
-        <code>
-            str name: "Pepe"; <br>
-            num age: 30.01; <br>
-            bool married: true;
-        </code>
-        <h2>Funciones</h2>
-        <p>La estructura principal de la funciones es la siguiente:</p>
-        <code>
-            fn name(type param, ...):typereturn{ [code] }
-        </code>
-        <p>El símbolo <code>fn</code>, es una palabra clave reservada, utilizada definir una función, mientras que
-            <code>name</code> es el nombre de la función, que al igual que los nombres de variable, puede ser cualquier
-            nombre alfanumérico, que no empiece con un dígito.
-        </p>
-        <p>Posteriormente, se localizan los parámetros de la función, que van encerrados entre símbolos de parentesis
-            (<code>()</code>), y dentro, los parámetros tienen la siguiente estructura: <code>type name</code>, donde
-            <code>type</code> corresponde al tipo de parámetro que recibirá la función, que pueden ser los mismos tipos
-            que tienen las variables: <code>num</code>, <code>str</code> y <code>bool</code>; y <code>name</code>, que
-            corresponde al nombre del parámetro, que puede ser cualquiera, siempre que contenga únicamente carácteres
-            alfanuméricos y noo empiece con dígito.
-        </p>
-        <p>Una función puede o no tener parámetros al momento de su definició, así que una función puede verse de la
-            siguiente forma: <code>fn suma(int num1, int numb2):num{}</code> o verse así:
-            <code>fn saludar():void{}</code> y están definidas de forma correcta.
-        </p>
-        <p>Despues de declarar los parámetros de la función, y de haber cerrado el símbolo de parentesis
-            (<code>)</code>), llega la hora de definir el tipo de retorno de la función, es decir, que tipo de dato va a
-            retornar la función tras su ejecución. Esto se define usando dos puntos (<code>:</code>), seguido del tipo,
-            que en caso de la funciones, pueden ser las mismas que las usadas en la variables: <code>num</code>,
-            <code>str</code> y <code>bool</code>, más un nuevo tipo vacío, identificado con la palabra clave
-            <code>void</code>.
-        </p>
-        <p>Finalmente, el contenido del código, representado en el ejemplo como <code>[code]</code>, se escribe dentro
-            de llaves (<code>{}</code>), el contenido puede ser cualquiera de las estructuras mostradas en este
-            documentos, como otras funciones, variables, loops y/o condicionales.</p>
-        <h3>Ejemplos</h3>
-        <code>
-            fn sumar(num a, num b):num { [code] } <br>
-            fn saludar():void { [code] } <br>
-            fn setPassword(str pwd):void { [code] }
-        </code>
-        <h2>Condicionales</h2>
-        <p>Las condicionales en Togo tienen la siguiente estructura:</p>
-        <code>if var op var { [code] }</code>
-        <p>Donde <code>if</code> es la palabra clave reservada para definir una condicional. La clave <code>var</code>
-            puede ser un nombre de varible declarada con anterioridad, un string o un número.</p>
-        <p>La referencia <code>op</code> hace referencia a los operadores lógicos admitidos en Togo, como pueden ser
-            <code>></code>, <code><</code>, <code>==</code>, <code>!=</code>.
-        </p>
-        <p>Y por último, dentro de las llaves (<code>{}</code>) podrá ir cualquier otra instrucción.</p>
-        <h3>Ejemplos</h3>
-        <code>
-            if age > limit { [code] } <br>
-            if 12 == 15 { [code] } <br>
-            if "algo" != "alga" { [code] }
-        </code>
-        <h2>Ciclo <em>for</em></h2>
-        <p>Togo permite una única forma te iteración, que es a través un ciclo <code>for</code>, el cual sigue la
-            siguiente estructura:</p>
-        <code>
-            for(iterable: initial, iterable op goal, iterable increment){ [code] }
-        </code>
-        <p>Donde <code>for</code> es la palabra clave reservada para iniciar un ciclo, luego continua con la declaración
-            de las variables iterables, que van dentro de paratesis (<code>()</code>), y en la referencia
-            <code>iterable</code>, damos a entender el valor inicial de nuestra variable que será con la que se
-            iterarás, esta pueda ser definida dentro del ciclo o únicamente llamada.
-        </p>
-        <p>En caso de definirla dentro del ciclo, el tipo de variable se omite ya que el tipo <code>num</code> está
-            implícito. Quedando un código como el siguiente:</p>
-        <code>
-            for(alumno: 0, alumno < 30, alumno++){ [code] }
-        </code>
-        <p>O bien, puedes poner el nombre de una sola variable, que ya haya sido declarada para usarla dentro del for,
-            como se muestra a continuación: </p>
-        <code>
-            for(alumno, alumno < 30, alumno++){ [code] }
-        </code>
-        <p>Siguiendo con la estructura del for, tenemos la parte de <code>iterable op goal</code>, que hace referencia
-            al valor donde el ciclo deberá detenerse, donde <code>iterable</code> es el valor que definimos como
-            iterador inicial, <code>op</code> hace referencia al operador lógico, que son los mismos que usan dentro de
-            las condicionales: <code>></code>, <code><</code>, <code>==</code>, <code>!=</code>; y <code>goal</code> es
-            el valor al cual se debe de comparar el iterable para que termine el ciclo, que puede ser otra variable, o
-            un numero escrito, como se muestra en el siguiente segmento de código:</p>
-        <code>
-            for(alumno, alumno < 30, alumno++){ [code] } 
-            <!-- for(alumno, alumno < 30, totalDeAlumno){ [code] } -->
-        </code>
-        <p>Luego continuamos con la sección de <code>iterator increment</code>, donde <code>increment</code> hace
-            referencia a los operadores de incremento y decremento de Togo, que son <code>++</code> y <code>--</code>.
-        </p>
-        <h3>Ejemplos</h3>
-        <code>
-            for(foo: 1, foo < 5, foo++){ [code] } <br>
-            <!-- for(foo, foo > bar, foo--){ [code] } -->
-        </code>
-        <h2>Autores</h2>
-        <p>Lenguaje diseñado y programado por:</p>
-        <ul>
-            <li>Adolfo González Juárez</li>
-            <li>Leonardo Toledo Velazco</li>
-        </ul>
+        <div class="editor-panel"> <!-- CODE EDITOR PANEL SEGMENT -->
+
+            <div class="controls">
+                <!-- APPLICATION AND CODE EDITOR PANELS -->
+                <div id="validate">
+                    Validar
+                </div>
+
+                <div id="ligature-btn" checked="true">
+                    Desactivar Ligature
+                </div>
+
+                <!-- <div>
+                    Modo claro
+                </div> -->
+
+                <div class="autocode" id="autocode">
+                    Generar código predefinido
+                </div>
+
+                <!-- <div>
+                    Activar auto identacion
+                </div> -->
+
+                <!-- <div>
+                    Activar autocompletado
+                </div> -->
+
+                <div id="borrar">Limpiar código</div>
+
+            </div>
+
+            <div class="editor" id="editor" spellcheck="false">
+                <!-- CODE TEXT EDITOR -->
+                <div line="1">
+                    Hola! Soy un texto po defecto del editor de código, si ves esto, significa que no está funcionando
+                    el
+                    script del editor. :(
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="editor-panel"> <!-- CODE EDITOR PANEL SEGMENT -->
-
-        <div class="controls">
-            <!-- APPLICATION AND CODE EDITOR PANELS -->
-            <div id="validate">
-                Validar
-            </div>
-
-            <div id="ligature-btn" checked="true">
-                Desactivar Ligature
-            </div>
-
-            <!-- <div>
-                Modo claro
-            </div> -->
-
-            <div class="autocode" id="autocode">
-                Generar código predefinido
-            </div>
-
-            <!-- <div>
-                Activar auto identacion
-            </div> -->
-
-            <!-- <div>
-                Activar autocompletado
-            </div> -->
-
-            <div id="borrar">Limpiar código</div>
-
+    <div class="bottom">
+        <div class="stack">
+            <h1>Input Stack</h1>
+            <ul id="stack">
+                <li class="active">fn</li>
+                <li class="error">say</li>
+                <li>(</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+                <li>num</li>
+            </ul>
         </div>
-
-        <div class="editor" id="editor" spellcheck="false">
-            <!-- CODE TEXT EDITOR -->
-            <div line="1">
-                Hola! Soy un texto po defecto del editor de código, si ves esto, significa que no está funcionando el
-                script del editor. :(
-            </div>
-        </div>
-
-        <div class="console" id="console">
-            <!-- INFORMATION CONSOLE -->
-            Hola! Soy una impresión de consola, si ves esto significa que no está funcionando el script del editor. :(
+        <div class="output">
+            <h1>Las alertas del código saldrán acá.</h1>
+            <ul id="output">
+                <li class="warn">La funcion <strong>Funcion</strong> ya ha sido declarada.</li>
+                <li class="error">La funcion <strong>Funcion</strong> ya ha sido declarada.</li>
+                <li class="success">La funcion <strong>Funcion</strong> ya ha sido declarada.</li>
+            </ul>
         </div>
     </div>
 </body>
 <script src="./lexer.js"></script>
+<script src="./chompa.js"></script>
 <script src="./editor.js"></script>
 
 </html>

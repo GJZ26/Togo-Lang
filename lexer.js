@@ -3,12 +3,22 @@
  * @param {Array} code_as_array Codigo como arrary, cada elemento es una línea del codigo original
  */
 function validar(code_as_array) {
+    stack.innerHTML = ""
+    out.innerHTML = ""
 
     const code_tokens = [
 
     ]
 
     tokenizer(0, code_as_array, code_tokens)
+
+    for (let i = 0; i < code_tokens.length; i++) {
+        for (let j = 0; j < code_tokens[i].length; j++) {
+            const tok = document.createElement("li")
+            tok.textContent = code_tokens[i][j]
+            stack.appendChild(tok)
+        }
+    }
 
     token_stream_validation(code_tokens)
 }
@@ -21,9 +31,9 @@ function validar(code_as_array) {
 function tokenizer(currentLine, code_as_array, scope_stack) {
     let actual_line = code_as_array[currentLine]
         .replace(/\s+/g, ' ')
-        .replace(/(:|{|}|,|\(|\)|;|>|<|==|!=|\+\+|--)/g, ' $1 ')
+        .replace(/(:|{|}|,|\(|\)|;|>|<|==|!=|\+\+|--|")/g, ' $1 ')
         .replace(/\s+/g, ' ')
-        .trim().split(" ")
+        .trim().split(" ").filter((token) => token !== "");
 
     scope_stack.push(actual_line)
 
@@ -37,18 +47,10 @@ function tokenizer(currentLine, code_as_array, scope_stack) {
  * @param {Array<Array<string>>} code_tokenized 
  */
 function token_stream_validation(code_tokenized) {
-    const auto = new Automatons()
-    for (let i = 0; i < code_tokenized.length; i++) {
-        for (let j = 0; j < code_tokenized[i].length; j++) {
-            let status = auto.im_read_token(code_tokenized[i][j])
-            if (!status[0]) {
-                embConsole.textContent = `❌ Error en la línea ${i + 1}, palabra ${j + 1} (${code_tokenized[i][j]}): ${status[1]}`
-                return;
-            }
-        }
-    }
-    embConsole.textContent = '✅ Código sin errores.'
+    const chom = new Chomp(code_tokenized, stack, out);
+    chom.start_stream()
 }
+
 
 class Automatons {
 
@@ -350,13 +352,13 @@ class Automatons {
 
             result = result || exp.test(word)
 
-//             console.log(
-//                 `Regla: ${exp}
-// Palabra: ${word}
-// Estructura: ${this.currentStructure}
-// Scope: ${Object.keys(this.scope)[Object.keys(this.scope).length - 1]}
-// Step: ${this.currentStep}`
-//             )
+            //             console.log(
+            //                 `Regla: ${exp}
+            // Palabra: ${word}
+            // Estructura: ${this.currentStructure}
+            // Scope: ${Object.keys(this.scope)[Object.keys(this.scope).length - 1]}
+            // Step: ${this.currentStep}`
+            //             )
 
         }
 
@@ -371,7 +373,7 @@ class Automatons {
         let errMsg = `La ${this.structures[this.currentStructure].type} no cumple con la estrucura deseada: ${this.structures[this.currentStructure].sample}`
 
         let varAvailability = this.__scope_register(word)
-        if(varAvailability){
+        if (varAvailability) {
             result = varAvailability[0]
             errMsg = varAvailability[1]
         }
@@ -390,7 +392,7 @@ class Automatons {
         let currentScope = Object.keys(this.scope)[Object.keys(this.scope).length - 1]
         if (this.currentStep === this.structures[this.currentStructure].named_in) {
             let result = this._check_name_availibity(word)
-            if(!result[0]){
+            if (!result[0]) {
                 return result
             }
             this.scope[currentScope].push({
@@ -414,10 +416,10 @@ class Automatons {
         // console.log(this.scope)
     }
 
-    _check_name_availibity(name){
-        for(let i =0 ; i < Object.keys(this.scope).length; i++){
-            for(let j = 0; j < this.scope[Object.keys(this.scope)[i]].length; j++){
-                if(this.scope[Object.keys(this.scope)[i]][j].name === name){
+    _check_name_availibity(name) {
+        for (let i = 0; i < Object.keys(this.scope).length; i++) {
+            for (let j = 0; j < this.scope[Object.keys(this.scope)[i]].length; j++) {
+                if (this.scope[Object.keys(this.scope)[i]][j].name === name) {
                     return [
                         false,
                         `El nombre de variable ${name} ya ha sido declarada en el scope ${Object.keys(this.scope)[i]}`
@@ -488,12 +490,12 @@ class Automatons {
             let reg = new RegExp(expresion)
             almostOneTrue = almostOneTrue || reg.test(word)
 
-//             console.log(
-//                 `Insolate Structure  <${structure}>
-// Palabra: ${word}
-// Regla: ${reg}
-// Cumple en esta: ${reg.test(word)}`
-//             )
+            //             console.log(
+            //                 `Insolate Structure  <${structure}>
+            // Palabra: ${word}
+            // Regla: ${reg}
+            // Cumple en esta: ${reg.test(word)}`
+            //             )
         }
 
         this.insolated_step++
