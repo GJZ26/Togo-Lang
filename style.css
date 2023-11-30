@@ -58,6 +58,11 @@ li.info {
     color: #25258d;
 }
 
+li.reg {
+    background-color: #75ff0012;
+    color: #90e1b6;
+}
+
 div.bottom div.stack,
 div.bottom div.output {
     display: flex;

@@ -9,7 +9,7 @@ class Chomp {
     /** @type {HTMLUListElement} */
     output_stack
 
-    delay_time_in_ms = 100
+    delay_time_in_ms = 10
 
     current_structure = null
     current_reference = null
@@ -70,23 +70,23 @@ class Chomp {
                 { reg: /^fn$/, next: "L", msg: "coincide con la palabra reservada fn" }
             ],
             L: [
-                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "O" }
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "O", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." }
             ],
             O: [
-                { reg: /^\($/, next: "P" }
+                { reg: /^\($/, next: "P", msg: "coincide con el carácter '('", wanted: '(' }
             ],
             P: [
                 { reg: /^str$/, next: "Q", msg: "coincide con los tipos de datos permitido: str | num | bool ", wanted: 'str' },
                 { reg: /^num$/, next: "Q", msg: "coincide con los tipos de datos permitido: str | num | bool ", wanted: 'num' },
                 { reg: /^bool$/, next: "Q", msg: "coincide con los tipos de datos permitido: str | num | bool ", wanted: 'bool' },
-                { reg: /^\)$/, next: "S" }
+                { reg: /^\)$/, next: "S", msg: "coincide con el carácter ')'", wanted: ')' }
             ],
             Q: [
-                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "R" }
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "R", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." }
             ],
             R: [
-                { reg: /^\)$/, next: "S" },
-                { reg: /^,$/, next: "P" }
+                { reg: /^\)$/, next: "S", msg: "coincide con el carácter ')'", wanted: ')' },
+                { reg: /^,$/, next: "P", msg: "coincide con el carácter ','", wanted: ',' }
             ],
             S: [
                 { reg: /^:$/, next: "T", msg: "coincide con el carácter ':'" }
@@ -95,10 +95,10 @@ class Chomp {
                 { reg: /^str$/, next: "U", msg: "coincide con los tipos de datos permitido: str | num | bool | void " },
                 { reg: /^num$/, next: "U", msg: "coincide con los tipos de datos permitido: str | num | bool | void " },
                 { reg: /^bool$/, next: "U", msg: "coincide con los tipos de datos permitido: str | num | bool | void " },
-                { reg: /^void$/, next: "U", msg: "coincide con los tipos de datos permitido: str | num | bool | void " },
+                { reg: /^void$/, next: "U", msg: "coincide con los tipos de datos permitido: str | num | bool | void " }
             ],
             U: [
-                { reg: /^{$/, next: null, scopable: true },
+                { reg: /^{$/, next: null, scopable: true, msg: "coincide con el carácter '{'", wanted: '{' },
             ]
         },
         conditional_declaration: {
@@ -107,9 +107,7 @@ class Chomp {
             ],
             Y: [
                 { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "Z", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
-                {
-                    reg: /^(?!.*\.\.)(?!^\.)\d+(\.\d+)?$/, next: "Z", msg: "coincide en uno o más dígitos numéricos"
-                },
+                { reg: /^(?!.*\.\.)(?!^\.)\d+(\.\d+)?$/, next: "Z", msg: "coincide en uno o más dígitos numéricos" },
             ],
             Z: [
                 { reg: /^\>$/, next: "ZA" },
@@ -121,9 +119,62 @@ class Chomp {
             ],
             ZA: [
                 { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "ZB", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
+                { reg: /^(?!.*\.\.)(?!^\.)\d+(\.\d+)?$/, next: "ZB", msg: "coincide en uno o más dígitos numéricos" },
             ],
             ZB: [
-                { reg: /^{$/, next: null, scopable: true },
+                { reg: /^{$/, next: null, scopable: true, msg: "coincide con el carácter '{'", wanted: '{' },
+            ]
+        },
+        for_loop: {
+            ZF: [
+                { reg: /^for$/, next: "ZG", msg: "coincide con la palabra reservada 'for'" },
+            ],
+            ZG: [
+                { reg: /^\($/, next: "ZH", msg: "coincide con el carácter '('", wanted: '(' },
+            ],
+            ZH: [
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "ZI", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
+            ],
+            ZI: [
+                { reg: /^:$/, next: "ZJ", msg: "coincide con el carácter ':'." },
+                { reg: /^,$/, next: "ZL", msg: "coincide con el carácter ','." },
+            ],
+            ZJ: [
+                { reg: /^(?!.*\.\.)(?!^\.)\d+(\.\d+)?$/, next: "ZK", msg: "coincide en uno o más dígitos numéricos" },
+            ],
+            ZK: [
+                { reg: /^,$/, next: "ZL", msg: "coincide con el carácter ','." },
+            ],
+            ZL: [
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "ZM", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
+            ],
+            ZM: [
+                { reg: /^\>$/, next: "ZN" },
+                { reg: /^\<$/, next: "ZN" },
+                { reg: /^\=\=$/, next: "ZN" },
+                { reg: /^\>\=$/, next: "ZN" },
+                { reg: /^\<\=$/, next: "ZN" },
+                { reg: /^!\=$/, next: "ZN" },
+            ],
+            ZN: [
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "ZO", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
+                { reg: /^(?!.*\.\.)(?!^\.)\d+(\.\d+)?$/, next: "ZO", msg: "coincide en uno o más dígitos numéricos" },
+            ],
+            ZO: [
+                { reg: /^,$/, next: "ZP", msg: "coincide con el carácter ','." },
+            ],
+            ZP: [
+                { reg: /^[^0-9][a-zA-Z0-9]*$/, next: "ZQ", msg: "coincide con caracteres alfanuméricos que no comiencen con un número." },
+            ],
+            ZQ: [
+                { reg: /^--$/, next: "ZR", msg: "coincide con caracteres de incremento: ++ | --." },
+                { reg: /^\+\+$/, next: "ZR", msg: "coincide con caracteres de incremento: ++ | --." },
+            ],
+            ZR: [
+                { reg: /^\)$/, next: "ZS", msg: "coincide con el carácter ')'." },
+            ],
+            ZS: [
+                { reg: /^{$/, next: null, scopable: true, msg: "coincide con el carácter '{'", wanted: '{' },
             ]
         }
     }
@@ -138,6 +189,7 @@ class Chomp {
 
     async start_stream() {
         let is_all_right = true
+
         for (let line_number = 0; line_number < this.tokens.length; line_number++) {
 
             for (let token_number = 0; token_number < this.tokens[line_number].length; token_number++) {
@@ -158,6 +210,7 @@ class Chomp {
                 return
             }
         }
+        
         const bubble = document.createElement('li')
         if (this.scope.length > 1) {
             bubble.classList.add('error')
@@ -226,6 +279,12 @@ class Chomp {
                     bubble.classList.add('info')
                     bubble.innerHTML = `Estructura reconocida en la línea ${line}: <strong>${this.current_structure}</strong>`
                     this.output_stack.appendChild(bubble)
+
+                    const bubblee = document.createElement('li')
+                    bubblee.classList.add('reg')
+                    bubblee.innerHTML = `[ <strong>${token}</strong> ] = <strong>${first_key}</strong> &#10140; <em>${rules[rule_count].reg} </em> &#10140; <strong>${this.current_reference}</strong>`
+                    this.output_stack.appendChild(bubblee)
+                    this.output_stack.parentNode.scrollTop = this.output_stack.parentNode.scrollHeight;
                     this.output_stack.parentNode.scrollTop = this.output_stack.parentNode.scrollHeight;
                     return true
                 }
@@ -245,6 +304,7 @@ class Chomp {
         for (let option = 0; option < alternatives.length; option++) {
             if (alternatives[option].reg.test(token)) {
                 // console.log(alternatives[option].reg + "->", token)
+                let actual = this.current_reference
                 this.current_reference = alternatives[option].next
                 if (alternatives[option].wanted) {
                     this.typo_required = alternatives[option].wanted
@@ -264,6 +324,11 @@ class Chomp {
                     this.output_stack.parentNode.scrollTop = this.output_stack.parentNode.scrollHeight;
                     this.scope.push([])
                 }
+                const bubble = document.createElement('li')
+                bubble.classList.add('reg')
+                bubble.innerHTML = `[ <strong>${token}</strong> ] = <strong>${actual}</strong> &#10140; <em>${alternatives[option].reg} </em> &#10140; <strong>${this.current_reference}</strong>`
+                this.output_stack.appendChild(bubble)
+                this.output_stack.parentNode.scrollTop = this.output_stack.parentNode.scrollHeight;
                 return true
             }
         }

@@ -51,7 +51,11 @@ function token_stream_validation(code_tokenized) {
     chom.start_stream()
 }
 
-
+/**
+ * Este es la clase que validaba la gramática en la primera version de la aplicación.
+ * Ignorarla. 
+ * Ver la clase Chomp del archivo chompa.js, incluye el lexer actual.
+ */
 class Automatons {
 
     functions_typos = {

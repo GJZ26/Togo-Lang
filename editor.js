@@ -192,9 +192,9 @@ const codes = [
 ]
 
 
-loadPreBuildCode()
-const codeAsArray = []
-for (let i = 0; i < editor.children.length; i++) {
-    codeAsArray.push(editor.children[i].textContent)
-}
-validar(codeAsArray)
+// loadPreBuildCode()
+// const codeAsArray = []
+// for (let i = 0; i < editor.children.length; i++) {
+//     codeAsArray.push(editor.children[i].textContent)
+// }
+// validar(codeAsArray)
