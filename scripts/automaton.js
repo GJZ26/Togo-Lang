@@ -179,14 +179,25 @@ class Automaton {
         this.visual_output_stack = visual_output_stack;
     }
 
+    async load_gramar() {
+        await fetch('scripts/gramar.json').then(response => response.json())
+            .then(data => {
+                this.grammar = data // Tu objeto JSON estará disponible aquí
+            })
+            .catch(error => {
+                console.error('Error al obtener el archivo JSON:', error);
+            });
+    }
+
     /**
      * Prepara el código, elimina doble espacios del código y tokeniza los carácteres.
      */
-    load() {
+    async load() {
         this.visual_input_stack.innerHTML = ''
         this.visual_output_stack.innerHTML = ''
         this.tokens = []
         this.current_structure_key = null
+        await this.load_gramar()
 
         for (let line_number = 0; line_number < this.code_as_array.length; line_number++) {
             this.tokens.push(
@@ -215,7 +226,7 @@ class Automaton {
         while (this.tokens.length > 0) {
             while (this.tokens[0].length > 0) {
                 // this.__update_first_element_stack_input()
-                this.__analize_token(this.tokens[0].shift())
+                await this.__analize_token(this.tokens[0].shift())
                 // this.max_recursive_functions_call = 10;
                 await this.__wait()
                 // this.__remove_first_element_stack_input()
@@ -231,15 +242,15 @@ class Automaton {
         return new Promise(resolve => setTimeout(resolve, this.delay_between_iteration))
     }
 
-    __analize_token(token) {
+    async __analize_token(token) {
         if (!this.current_structure_key) {
             this.__recognize_structure(token)
         }
-        this.__navigate_into_grammar(token)
+        await this.__navigate_into_grammar(token)
         console.log(this.grammar.variable.S.next)
     }
 
-    __navigate_into_grammar(token) {
+    async __navigate_into_grammar(token) {
         console.log(JSON.stringify(this.current_rule))
 
         if (this.current_rule.length < 1) {
@@ -259,12 +270,16 @@ class Automaton {
         if (!first_rule_under_review.treat_as_word) {
             console.log(`No Entró: ${token} - ${first_rule_under_review.reg} | ${current_group_of_rule[0]}`)
             if (this.__char_by_char_analizer(token.split(""))) {
-                this.current_rule[this.current_rule.length - 1][0].shift()
+                this.current_rule[this.current_rule.length - 1][0] = JSON.parse(JSON.stringify(this.current_rule[this.current_rule.length - 1][0]));
+                this.current_rule[this.current_rule.length - 1][0].shift();
+
+                console.log("A: ", JSON.stringify(this.grammar.variable.D1.next))
+
             }
             return
         }
 
-        if (first_rule_under_review.reg.test(token)) {
+        if (RegExp(first_rule_under_review.reg).test(token)) {
             console.log(`Entró: ${token} - ${first_rule_under_review.reg} | ${current_group_of_rule[0]}`)
             current_group_of_rule.shift()
             if (first_rule_under_review.last_transition) {
@@ -272,6 +287,7 @@ class Automaton {
                 this.current_structure_key = null
                 this.current_state = null
                 this.current_rule = []
+                await this.load_gramar()
                 return
             }
             console.log
@@ -280,6 +296,7 @@ class Automaton {
     }
 
     __char_by_char_analizer(token_as_array) {
+
         let can_i_remove = false
         let is_validate = false
         this.max_recursive_functions_call--
@@ -313,7 +330,7 @@ class Automaton {
             }
 
 
-            if (rule.reg.test(current_char)) {
+            if (RegExp(rule.reg).test(current_char)) {
                 let copy = [...first_key_to_check[alternatives]]
                 copy.shift()
                 let new_rule = copy
@@ -392,14 +409,18 @@ class Automaton {
      * @param {Array<string>} registers 
      */
     __validate_first_transition(registers, structure, token) {
-        if (!structure[registers[0]].reg) {
-            console.warn("Esta estructura no contiene una expresión que evaluar.\nOmitiendo por ahora.\nTransición: " + [registers[0]])
-            return false
+        const currentTransition = { ...structure[registers[0]] };  // Utiliza spread para copiar el objeto
+        console.log(structure[registers[0]])
+        if (!currentTransition.reg) {
+            console.warn(`Esta estructura no contiene una expresión que evaluar.\nOmitiendo por ahora.\nTransición: ${registers[0]}`);
+            return false;
         }
-        if (structure[registers[0]].reg.test(token)) {
-            return structure[registers[0]]
+
+        if (RegExp(currentTransition.reg).test(token)) {
+            return { ...currentTransition };  // Utiliza spread para copiar el objeto
         }
     }
+
 
     __add_output_stack(className, message) {
         const element_to_add = document.createElement('li')

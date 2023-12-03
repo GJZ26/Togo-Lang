@@ -9,7 +9,9 @@ async function start(code_as_array) {
         stack,
         out
     )
-    
-    auto.load()
-    await auto.start()
+
+    auto.load().then(() => {
+        auto.start()
+    })
+
 }
