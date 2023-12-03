@@ -3,25 +3,25 @@
  * #########################################################################
  * -------------------------------------------------------------------------
  * #########################################################################
- * @deprecated
  * 
  * ESTE ES EL CODIGO DE LA PRIMERA VERSION DEL LEXER
- *
- * SE HA MODIFICADO ALGUNOS PARAMÉTROS DESDE SU´ULTIMA VERSIÓN, ASI QUE PUEDE
- * NO FUNCIONAR.
- * 
- * EN SU LUGAR VER: automaton.js
- * 
- * 
- * #########################################################################
- * -------------------------------------------------------------------------
- * #########################################################################
- * 
- */
+*
+* SE HA MODIFICADO ALGUNOS PARAMÉTROS DESDE SU´ULTIMA VERSIÓN, ASI QUE PUEDE
+* NO FUNCIONAR.
+* 
+* EN SU LUGAR VER: automaton.js
+* 
+* 
+* #########################################################################
+* -------------------------------------------------------------------------
+* #########################################################################
+* 
+*/
 
 /**
  * 
  * @param {Array} code_as_array Codigo como arrary, cada elemento es una línea del codigo original
+ * @deprecated
  */
 function validar(code_as_array) {
     stack.innerHTML = ""

@@ -1,7 +1,7 @@
 // de Editor.js
 loadEditor()
 
-function start(code_as_array) {
+async function start(code_as_array) {
 
     const auto = new Automaton(
         parseInt(document.getElementById('speed').value),
@@ -11,5 +11,5 @@ function start(code_as_array) {
     )
     
     auto.load()
-    auto.start()
+    await auto.start()
 }

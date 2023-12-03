@@ -21,7 +21,7 @@ function loadEditor() {
 }
 
 function loadPreBuildCode() {
-    const selectedCode = test_data[randomIntFromInterval(0, codes.length - 1)]
+    const selectedCode = test_data[randomIntFromInterval(0, test_data.length - 1)]
     editor.innerHTML = ""
     selectedCode.map((line, index) => {
         const paragraph = document.createElement("div")
@@ -203,47 +203,47 @@ const codes = [
 
 const test_data = [
     [
-        'num a: 12;',
-        'num b: 12.12;',
-        'str c: "Some text";',
-        'bool d: true;'
+        'num hola: 12;',
+        'num mundo: 12.12;',
+        'str como: "Some text";',
+        'bool estamos: true;'
     ],
-    [
-        'num a: "Some text"  ;',
-        'str b: true  ;',
-        'bool c: 12 ;',
-        'bool c: .12 ;'
-    ],
-    [
-        'fn sumar(num a, num b):void{',
-        '   str b: true  ;',
-        '}',
-        'fn sumar():num{',
-        '   str b: true  ;',
-        '}',
-    ],
-    [
-        'if 1 < 1{',
-        '   str b: true  ;',
-        '}',
-        'if varname > namevar{',
-        '   str b: true  ;',
-        '}',
-        'if "varname" == "namevar"{',
-        '   str b: true  ;',
-        '}',
-        'if "varname" != 12{',
-        '   str b: true  ;',
-        '}',
-    ],
-    [
-        'for (alumno:0, alumno < 30, alumno++){',
-        '   str b: true  ;',
-        '}',
-        'for (alumno, alumno > 30, alumno--){',
-        '   str b: true  ;',
-        '}'
-    ],
+    // [
+    //     'num a: "Some text"  ;',
+    //     'str b: true  ;',
+    //     'bool c: 12 ;',
+    //     'bool c: .12 ;'
+    // ],
+    // [
+    //     'fn sumar(num a, num b):void{',
+    //     '   str b: true  ;',
+    //     '}',
+    //     'fn sumar():num{',
+    //     '   str b: true  ;',
+    //     '}',
+    // ],
+    // [
+    //     'if 1 < 1{',
+    //     '   str b: true  ;',
+    //     '}',
+    //     'if varname > namevar{',
+    //     '   str b: true  ;',
+    //     '}',
+    //     'if "varname" == "namevar"{',
+    //     '   str b: true  ;',
+    //     '}',
+    //     'if "varname" != 12{',
+    //     '   str b: true  ;',
+    //     '}',
+    // ],
+    // [
+    //     'for (alumno:0, alumno < 30, alumno++){',
+    //     '   str b: true  ;',
+    //     '}',
+    //     'for (alumno, alumno > 30, alumno--){',
+    //     '   str b: true  ;',
+    //     '}'
+    // ],
 ]
 
 
