@@ -236,6 +236,7 @@ class Automaton {
             this.__recognize_structure(token)
         }
         this.__navigate_into_grammar(token)
+        console.log(this.grammar.variable.S.next)
     }
 
     __navigate_into_grammar(token) {
@@ -350,42 +351,39 @@ class Automaton {
      * @param {string} token 
      */
     __recognize_structure(token) {
-        let temporal_register = []
+        let temporal_register = [];
 
         for (let structure_index = 0; structure_index < Object.keys(this.grammar).length; structure_index++) {
-
-            const structure_under_review = this.grammar[Object.keys(this.grammar)[structure_index]]
-            const initial_state = Object.keys(structure_under_review)[0]
+            const structure_under_review = { ...this.grammar[Object.keys(this.grammar)[structure_index]] };
+            const initial_state = Object.keys(structure_under_review)[0];
 
             // Valida si la transición inicial tiene referencias o es una transición terminal, si no, hubo un error y salta esta estructura
             if (!structure_under_review[initial_state].reg && structure_under_review[initial_state].next.length === 0) {
-                console.warn(`La estructura "${Object.keys(this.grammar)[structure_index]}" no contiene referencias a otros nodos o una expresión regular para evaluar.\n\nOmitiendo.`)
-                continue
+                console.warn(`La estructura "${Object.keys(this.grammar)[structure_index]}" no contiene referencias a otros nodos o una expresión regular para evaluar.\n\nOmitiendo.`);
+                continue;
             }
 
             if (structure_under_review[initial_state].next) {
-                const alternatives = structure_under_review[initial_state].next
+                const alternatives = [...structure_under_review[initial_state].next];
 
                 for (let alternative_index = 0; alternative_index < alternatives.length; alternative_index++) {
-                    temporal_register = alternatives[alternative_index]
+                    temporal_register = [...alternatives[alternative_index]];
                     if (this.__validate_first_transition(temporal_register, structure_under_review, token)) {
-                        this.current_structure_key = Object.keys(this.grammar)[structure_index]
-                        this.current_rule.push([temporal_register])
-                        this.current_rule_group_index = 0
-                        this.current_state = initial_state
+                        this.current_structure_key = Object.keys(this.grammar)[structure_index];
+                        this.current_rule.push([temporal_register]);
+                        this.current_rule_group_index = 0;
+                        this.current_state = initial_state;
 
-                        this.__add_output_stack('info', 'Nueva estructura localizada: ' + this.current_structure_key)
-                        this.__add_output_stack('reg', `Inicial: ${this.current_state} => ${this.current_rule.map((item) => { return item })}`)
+                        this.__add_output_stack('info', 'Nueva estructura localizada: ' + this.current_structure_key);
+                        this.__add_output_stack('reg', `Inicial: ${this.current_state} => ${this.current_rule.map((item) => { return item })}`);
                     }
                 }
-
             }
-
         }
 
         if (!this.current_structure_key) {
-            console.log(this)
-            throw new Error("No se pudo encontrar una estrucutura válida para este token: " + token)
+            console.log(this);
+            throw new Error("No se pudo encontrar una estructura válida para este token: " + token);
         }
     }
 
