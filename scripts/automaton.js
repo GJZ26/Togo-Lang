@@ -291,6 +291,8 @@ class Automaton {
                 return
             }
             console.log
+        }else{
+            throw new Error("Carácter inválido: "+ token)
         }
 
     }
