@@ -233,6 +233,9 @@ class Automaton {
             }
             this.tokens.shift()
         }
+        if(this.current_rule.length){
+            throw new Error("Se esparaban más carácteres.")
+        }
     }
 
     /**
