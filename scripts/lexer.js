@@ -1,5 +1,26 @@
 /**
  * 
+ * #########################################################################
+ * -------------------------------------------------------------------------
+ * #########################################################################
+ * @deprecated
+ * 
+ * ESTE ES EL CODIGO DE LA PRIMERA VERSION DEL LEXER
+ *
+ * SE HA MODIFICADO ALGUNOS PARAMÉTROS DESDE SU´ULTIMA VERSIÓN, ASI QUE PUEDE
+ * NO FUNCIONAR.
+ * 
+ * EN SU LUGAR VER: automaton.js
+ * 
+ * 
+ * #########################################################################
+ * -------------------------------------------------------------------------
+ * #########################################################################
+ * 
+ */
+
+/**
+ * 
  * @param {Array} code_as_array Codigo como arrary, cada elemento es una línea del codigo original
  */
 function validar(code_as_array) {
@@ -41,7 +62,6 @@ function tokenizer(currentLine, code_as_array, scope_stack) {
         tokenizer(currentLine + 1, code_as_array, scope_stack)
     }
 }
-
 /**
  * 
  * @param {Array<Array<string>>} code_tokenized 

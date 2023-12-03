@@ -1,4 +1,3 @@
-const ligature_btn = document.getElementById("ligature-btn");
 const editor = document.getElementById("editor")
 const autocode = document.getElementById("autocode")
 const validateBtn = document.getElementById('validate')
@@ -6,27 +5,14 @@ const deleteBtn = document.getElementById('borrar')
 const out = document.getElementById('output')
 const stack = document.getElementById('stack')
 
-stack.textContent = ""
-out.textContent = ""
-
-ligature_btn.addEventListener('click', (e) => {
-    if (e.target.getAttribute("checked") === "false") {
-        e.target.textContent = "Desactivar ligatures"
-        document.body.removeAttribute("style")
-    } else {
-        e.target.textContent = "Activar ligatures"
-        document.body.style.fontVariantLigatures = "none"
-    }
-
-    e.target.setAttribute("checked", !(e.target.getAttribute("checked") === "true"))
-})
-
 deleteBtn.addEventListener('click', () => {
     editor.innerHTML = ""
     add_new_paragraph()
 })
 
 function loadEditor() {
+    stack.innerHTML = ""
+    out.innerHTML = ""
     editor.innerHTML = ""
     add_new_paragraph()
     autocode.addEventListener('click', () => {
@@ -35,7 +21,7 @@ function loadEditor() {
 }
 
 function loadPreBuildCode() {
-    const selectedCode = codes[randomIntFromInterval(0, codes.length - 1)]
+    const selectedCode = test_data[randomIntFromInterval(0, codes.length - 1)]
     editor.innerHTML = ""
     selectedCode.map((line, index) => {
         const paragraph = document.createElement("div")
@@ -52,12 +38,10 @@ validateBtn.addEventListener('click', () => {
     for (let i = 0; i < editor.children.length; i++) {
         codeAsArray.push(editor.children[i].textContent)
     }
-    validar(codeAsArray)
+    start(codeAsArray)
 })
 
-/** @param {KeyboardEvent} e  */
 function keyDown(e) {
-    // embConsole.textContent = e.key
     if (e.key === "Enter") {
         e.preventDefault()
         add_new_paragraph(e.target)
@@ -67,7 +51,7 @@ function keyDown(e) {
         editor.removeChild(e.target)
         updateLineCount()
     }
-    if (e.key === "ArrowDown") { // Arrow down
+    if (e.key === "ArrowDown") {
         if (e.target.nextSibling) {
             e.target.nextSibling.focus()
             const currentCaretPosition = window.getSelection().focusOffset
@@ -77,7 +61,7 @@ function keyDown(e) {
         }
     }
 
-    if (e.key === "ArrowUp") { // Arrow up
+    if (e.key === "ArrowUp") {
         if (e.target.previousElementSibling) {
             e.target.previousElementSibling.focus()
             const selection = new Range()
@@ -113,88 +97,162 @@ function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-
-loadEditor()
-
 const codes = [
     [
-        'num age: 12;',
-        'str name: "Jose"',
-        'bool wrong: 23;',
-        'str age: "12";',
-        'fn str(){',
-        '    num a: 12;',
+        'num x: 5;',
+        'str y: "Hello";',
+        'bool z: false;',
+        'fn multiply(num a, num b):num{',
+        '    return result;',
+        '},',
+        'fn greet(str name):void{',
+        '    str greeting: "Hello";',
         '}',
-        'fn cool(int a, str b, bool a):void{',
-        '    a',
+        'if count > 10{',
+        '    str message: "Count is greater than 10";',
+        '},',
+        'for (i: 0, i < 5, i++){',
+        '},',
+        'for (j: 10, j > 0, j--){',
         '}'
     ],
     [
-        'num years: 123;',
-        'str currentMonth: "March";',
-        'bool isFinite: true;',
-        'fn doSomething(): void{',
-        '    str years: "yep";',
-        '    num uniqueVar: 12;',
-        '    fn otherFunction(): num{',
-        '        num uniqueVar: 14;',
-        '    }',
-        '}',
-        'bool uniqueVar: false;',
-        'if 12 == 12 {',
-        '    bool uniqueVar: false;',
-        '}',
-        'if "uniqueVar" == "years" {',
+        'num a: 12;',
+        'num b: 12.12;',
+        'str c: "Some text";',
+        'bool d: true;',
+        'fn sumar(num a, num b):void{',
+        '    str b: true;',
+        '},',
+        'fn sumar():num{',
+        '    str b: true;',
+        '},',
+        'if 1 < 1{',
+        '    str b: true;',
+        '},',
+        'if varname > namevar{',
+        '    str b: true;',
+        '},',
+        'if "varname" == "namevar"{',
+        '    str b: true;',
+        '},',
+        'if "varname" != 12{',
+        '    str b: true;',
+        '},',
+        'for (alumno:0, alumno < 30, alumno++){',
+        '    str b: true;',
+        '},',
+        'for (alumno, alumno > 30, alumno--){',
+        '    str b: true;',
         '}'
     ],
     [
-        'str numero: "Hola mundo";'
-    ],
-    [
-        'num numero: true;'
-    ],
-    [
-        'num numero: "asd";'
-    ],
-    [
-        'num          a:12;',
-        'str b   : "Aldo"       ;',
+        'num a: 12;',
+        'str b: "Aldo";',
         'bool c: false;',
-        'fn sumar(   num primerDigito   , num segundoDigito   ) :void ',
-        '{',
+        'fn sumar(num primerDigito, num segundoDigito):void {',
         '    num d: 14.0;',
         '    num da: 16.0;',
         '    str e: "Alda";',
-        '    if d>da{',
+        '    if d > da {',
         '        bool c: true;',
         '    }',
         '}',
-        'num d : 10;',
-        'if aldo    == eldo{',
-        '    str e : "pepe";',
+        'num d: 10;',
+        'if aldo == eldo {',
+        '    str e: "pepe";',
         '}',
-        'for(foo: 1   , foo< 5,foo++){',
-        '    str f    :"pepeCruz";',
-        '    for   ( a:12,a >12,a++){',
+        'for (foo: 1, foo < 5, foo++) {',
+        '    str f: "pepeCruz";',
+        '    for (a: 12, a > 12, a++) {',
         '        num teve1: 14;',
-        '    }}',
-        'fn mehMeh():void{',
+        '    }',
+        '}',
+        'fn mehMeh():void {',
         '    ',
         '}',
-    ],[
+    ]
+    , [
         'num b: 12;',
         'str c: "amigo";',
         'bool coyar: true;',
         'fn sumar(num add, num b): void{',
         '    str pepe: "cruz";',
         '}',
-    ]
+    ],
+    [
+        'num x: 5;',
+        'str y: "Hello";',
+        'bool z: false;',
+        'fn multiply(num a, num b):num{',
+        '    num result: a * b;',
+        '    return result;',
+        '},',
+        'fn greet(str name):void{',
+        '    str greeting: "Hello, " + name + "!";',
+        '},',
+        'if count > 10{',
+        '    str message: "Count is greater than 10";',
+        '},',
+        'for (i: 0, i < 5, i++){',
+        '},',
+        'for (j: 10, j > 0, j--){',
+        '}'
+    ],
+]
+
+const test_data = [
+    [
+        'num a: 12;',
+        'num b: 12.12;',
+        'str c: "Some text";',
+        'bool d: true;'
+    ],
+    [
+        'num a: "Some text"  ;',
+        'str b: true  ;',
+        'bool c: 12 ;',
+        'bool c: .12 ;'
+    ],
+    [
+        'fn sumar(num a, num b):void{',
+        '   str b: true  ;',
+        '}',
+        'fn sumar():num{',
+        '   str b: true  ;',
+        '}',
+    ],
+    [
+        'if 1 < 1{',
+        '   str b: true  ;',
+        '}',
+        'if varname > namevar{',
+        '   str b: true  ;',
+        '}',
+        'if "varname" == "namevar"{',
+        '   str b: true  ;',
+        '}',
+        'if "varname" != 12{',
+        '   str b: true  ;',
+        '}',
+    ],
+    [
+        'for (alumno:0, alumno < 30, alumno++){',
+        '   str b: true  ;',
+        '}',
+        'for (alumno, alumno > 30, alumno--){',
+        '   str b: true  ;',
+        '}'
+    ],
 ]
 
 
-// loadPreBuildCode()
-// const codeAsArray = []
-// for (let i = 0; i < editor.children.length; i++) {
-//     codeAsArray.push(editor.children[i].textContent)
-// }
-// validar(codeAsArray)
+
+setTimeout(() => {
+    loadPreBuildCode()
+    const codeAsArray = []
+    for (let i = 0; i < editor.children.length; i++) {
+        codeAsArray.push(editor.children[i].textContent)
+    }
+    start(codeAsArray)
+}, 200)
