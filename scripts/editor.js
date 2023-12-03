@@ -204,8 +204,8 @@ const codes = [
 const test_data = [
     [
         'num hola: 12;',
-        'num mundo: 12.12;',
-        'str como: "Some text";',
+        'num mundo: 122;',
+        'str como: "Sometext";',
         'bool estamos: true;'
     ],
     // [

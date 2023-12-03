@@ -236,6 +236,7 @@ class Automaton {
         if(this.current_rule.length){
             throw new Error("Se esparaban más carácteres.")
         }
+        this.__add_output_stack('success',"Código correcto!")
     }
 
     /**
@@ -432,9 +433,11 @@ class Automaton {
         element_to_add.classList.add(className)
         element_to_add.textContent = message
         this.visual_output_stack.appendChild(element_to_add)
+        this.visual_output_stack.parentNode.scrollTop = this.visual_output_stack.parentNode.scrollHeight;
     }
 
     __update_first_element_stack_input() {
+
         this.visual_input_stack.firstChild.classList.add('active')
     }
 
