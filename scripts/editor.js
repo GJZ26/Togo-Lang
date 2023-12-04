@@ -233,18 +233,14 @@ const test_data = [
     //     '   num b: 12  ;',
     //     '}',
     // ],
-    // [
-    //     'for (alumno:0, alumno < 30, alumno++){',
-    //     '   str b: true  ;',
-    //     '}',
-    //     'for (alumno, alumno > 30, alumno--){',
-    //     '   str b: true  ;',
-    //     '}'
-    // ],
     [
-        "if alo < ola {",
-        "    bool a: true;",
-    ]
+        'for (alumno:0, alumno < 30, alumno++){',
+        '   str b: "true"  ;',
+        '}',
+        'for (alumno, alumno > 30, alumno--){',
+        '   bool b: true  ;',
+        '}'
+    ],
 ]
 
 
