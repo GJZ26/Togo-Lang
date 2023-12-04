@@ -222,17 +222,17 @@ const test_data = [
     //     '   str b: true  ;',
     //     '}',
     // ],
-    [
-        'if ola < alo{',
-        '   bool b: true  ;',
-        '}',
-        'if varname > namevar{',
-        '   str b: true  ;',
-        '}',
-        'if varname == namevar{',
-        '   str b: true  ;',
-        '}',
-    ],
+    // [
+    //     'if ola < alo{',
+    //     '   bool b: true  ;',
+    //     '}',
+    //     'if varname > namevar{',
+    //     '   str b: "true"  ;',
+    //     '}',
+    //     'if varname == namevar{',
+    //     '   num b: 12  ;',
+    //     '}',
+    // ],
     // [
     //     'for (alumno:0, alumno < 30, alumno++){',
     //     '   str b: true  ;',
@@ -241,6 +241,10 @@ const test_data = [
     //     '   str b: true  ;',
     //     '}'
     // ],
+    [
+        "if alo < ola {",
+        "    bool a: true;",
+    ]
 ]
 
 

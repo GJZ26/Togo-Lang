@@ -234,7 +234,7 @@ class Automaton {
             }
             this.tokens.shift()
         }
-        if(this.scope > 0){
+        if(this.scope.length > 0){
             throw new Error("Missing } characters.")
         }
         if (this.current_rule.length) {
