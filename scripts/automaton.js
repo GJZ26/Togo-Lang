@@ -159,6 +159,7 @@ class Automaton {
     tokens = [[]] // Código pasado a palabras: fn algo => ["fn", "algo"].
     max_recursive_functions_call = 500
     still_validating = false
+    scope = []
 
     /**
      * 
@@ -233,10 +234,13 @@ class Automaton {
             }
             this.tokens.shift()
         }
-        if(this.current_rule.length){
+        if(this.scope > 0){
+            throw new Error("Missing } characters.")
+        }
+        if (this.current_rule.length) {
             throw new Error("Se esparaban más carácteres.")
         }
-        this.__add_output_stack('success',"Código correcto!")
+        this.__add_output_stack('success', "Código correcto!")
     }
 
     /**
@@ -247,15 +251,28 @@ class Automaton {
     }
 
     async __analize_token(token) {
+
+        if(token === '}'){
+            if(this.scope.length < 1){
+                throw new Error("Character } unexpected")
+            }
+
+            this.scope.pop()
+            return
+        }
+
         if (!this.current_structure_key) {
             this.__recognize_structure(token)
         }
+
         await this.__navigate_into_grammar(token)
         console.log(this.grammar.variable.S.next)
     }
 
     async __navigate_into_grammar(token) {
         console.log(JSON.stringify(this.current_rule))
+
+
 
         if (this.current_rule.length < 1) {
             throw new Error("Este es un error porque aun no sé que hacer en esta parte \n Array de reglas vacías")
@@ -276,9 +293,6 @@ class Automaton {
             if (this.__char_by_char_analizer(token.split(""))) {
                 this.current_rule[this.current_rule.length - 1][0] = JSON.parse(JSON.stringify(this.current_rule[this.current_rule.length - 1][0]));
                 this.current_rule[this.current_rule.length - 1][0].shift();
-
-                console.log("A: ", JSON.stringify(this.grammar.variable.D1.next))
-
             }
             return
         }
@@ -291,12 +305,14 @@ class Automaton {
                 this.current_structure_key = null
                 this.current_state = null
                 this.current_rule = []
+                if(first_rule_under_review.scopable){
+                    this.scope.push("a")
+                }
                 await this.load_gramar()
                 return
             }
-            console.log
-        }else{
-            throw new Error("Carácter inválido: "+ token)
+        } else {
+            throw new Error("Carácter inválido: " + token)
         }
 
     }
@@ -385,7 +401,6 @@ class Automaton {
                 console.warn(`La estructura "${Object.keys(this.grammar)[structure_index]}" no contiene referencias a otros nodos o una expresión regular para evaluar.\n\nOmitiendo.`);
                 continue;
             }
-
             if (structure_under_review[initial_state].next) {
                 const alternatives = [...structure_under_review[initial_state].next];
 
@@ -405,7 +420,6 @@ class Automaton {
         }
 
         if (!this.current_structure_key) {
-            console.log(this);
             throw new Error("No se pudo encontrar una estructura válida para este token: " + token);
         }
     }
@@ -416,12 +430,11 @@ class Automaton {
      */
     __validate_first_transition(registers, structure, token) {
         const currentTransition = { ...structure[registers[0]] };  // Utiliza spread para copiar el objeto
-        console.log(structure[registers[0]])
         if (!currentTransition.reg) {
             console.warn(`Esta estructura no contiene una expresión que evaluar.\nOmitiendo por ahora.\nTransición: ${registers[0]}`);
             return false;
         }
-
+        console.log(RegExp(currentTransition.reg))
         if (RegExp(currentTransition.reg).test(token)) {
             return { ...currentTransition };  // Utiliza spread para copiar el objeto
         }
