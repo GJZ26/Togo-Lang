@@ -202,45 +202,45 @@ const codes = [
 ]
 
 const test_data = [
-    // [
-    //     'num hola: 12;',
-    //     'num mundo: 122;',
-    //     'str como: "Sometext";',
-    //     'bool estamos: true;'
-    // ],
-    // [
-    //     'num a: "Sometext"  ;',
-    //     'str b: true  ;',
-    //     'bool c: 12 ;',
-    //     'bool c: .12 ;'
-    // ],
-    // [
-    //     'fn sumar(num a, num b):void{',
-    //     '   str b: true  ;',
-    //     '}',
-    //     'fn sumar():num{',
-    //     '   str b: true  ;',
-    //     '}',
-    // ],
-    // [
-    //     'if ola < alo{',
-    //     '   bool b: true  ;',
-    //     '}',
-    //     'if varname > namevar{',
-    //     '   str b: "true"  ;',
-    //     '}',
-    //     'if varname == namevar{',
-    //     '   num b: 12  ;',
-    //     '}',
-    // ],
     [
-        'for (alumno:0, alumno < 30, alumno++){',
+        'num hola: 12;',
+        'num mundo: 122;',
+        'str como: "Sometext";',
+        'bool estamos: true;'
+    ],
+    [
+        'num a: "Sometext"  ;',
+        'str b: true  ;',
+        'bool c: 12 ;',
+        'bool c: .12 ;'
+    ],
+    [
+        'fn sumar(num a):void{',
+        '   str b: true  ;',
+        '}',
+        'fn sumar():num{',
+        '   str b: true  ;',
+        '}',
+    ],
+    [
+        'if ola < alo{',
+        '   bool b: true  ;',
+        '}',
+        'if varname > namevar{',
         '   str b: "true"  ;',
         '}',
-        'for (alumno, alumno > 30, alumno--){',
-        '   bool b: true  ;',
-        '}'
+        'if varname == namevar{',
+        '   num b: 12  ;',
+        '}',
     ],
+    // [
+    //     'for (alumno:0, alumno < 30, alumno++){',
+    //     '   str b: "true"  ;',
+    //     '}',
+    //     'for (alumno, alumno > 30, alumno--){',
+    //     '   bool b: true  ;',
+    //     '}'
+    // ],
 ]
 
 

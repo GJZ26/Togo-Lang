@@ -142,7 +142,7 @@
                 ]
             ],
             "reg": null,
-            "treat_as_word": true
+            "treat_as_word": false
         },
         "E2": {
             "next": [],
@@ -241,6 +241,38 @@
             "treat_as_word": true,
             "last_transition": false
         },
+        "N": {
+            "next": [
+                [
+                    "A",
+                    "O"
+                ],
+                [
+                    "A1",
+                    "O"
+                ],
+                [
+                    "A2",
+                    "O"
+                ],
+                [
+                    "PF",
+                    "Q"
+                ]
+            ],
+            "reg": null,
+            "treat_as_word": true
+        },
+        "O": {
+            "next": [
+                [
+                    "PA",
+                    "P"
+                ]
+            ],
+            "reg": null,
+            "treat_as_word": true
+        },
         "PI": {
             "next": [
                 []
@@ -274,14 +306,14 @@
                 ]
             ],
             "reg": null,
-            "treat_as_word": false
+            "treat_as_word": true
         },
         "PF": {
             "next": [
                 []
             ],
             "reg": "^\\)$",
-            "treat_as_word": false
+            "treat_as_word": true
         },
         "Q": {
             "next": [
@@ -292,6 +324,11 @@
             ],
             "reg": null,
             "treat_as_word": false
+        },
+        "DP": {
+            "next": [],
+            "reg": "^:$",
+            "treat_as_word": true
         },
         "R": {
             "next": [
@@ -344,7 +381,8 @@
             "next": [],
             "reg": "^{$",
             "treat_as_word": true,
-            "scopable": true
+            "scopable": true,
+            "last_transition": true
         },
         "T": {
             "next": [
@@ -454,17 +492,35 @@
             "reg": null,
             "treat_as_word": true
         },
+        "DP": {
+            "next": [],
+            "reg": "^:$",
+            "treat_as_word": true
+        },
         "AB": {
             "next": [],
             "reg": "^for$",
             "treat_as_word": true
         },
+        "PI": {
+            "next": [],
+            "reg": "^\\($",
+            "treat_as_word": true
+        },
+        "Q": {
+            "next": [
+                [
+                    "DP",
+                    "R"
+                ]
+            ],
+            "reg": null,
+            "treat_as_word": false
+        },
         "AC": {
             "next": [
                 [
-                    "P"
-                ],
-                [
+                    "PI",
                     "AD"
                 ]
             ],
@@ -474,20 +530,30 @@
         "AD": {
             "next": [
                 [
-                    "P"
+                    "PA", "AE"
                 ],
                 [
-                    "AD"
+                    "NU","AH"
                 ]
             ],
             "reg": null,
             "treat_as_word": true
         },
-        "P": {
-            "nex": [
+        "PF": {
+            "next": [
                 []
             ],
-            "reg": "^\\($",
+            "reg": "^\\)$",
+            "treat_as_word": true
+        },
+        "P": {
+            "next": [
+                [
+                    "PI",
+                    "Q"
+                ]
+            ],
+            "reg": null,
             "treat_as_word": true
         },
         "AE": {
@@ -502,7 +568,7 @@
         },
         "AF": {
             "next": [],
-            "reg": "^=$",
+            "reg": "^:$",
             "treat_as_word": true
         },
         "AG": {

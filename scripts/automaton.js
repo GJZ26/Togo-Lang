@@ -1,157 +1,5 @@
 class Automaton {
 
-    grammar = {
-        variable: {
-            S: {
-                next: [
-                    ["A", "B"],
-                    ["A1", "B1"],
-                    ["A2", "B2"],
-                ],
-                reg: null, // Define la regla que debe aplicarse en esta transición, nulo si no es una transicion final y hace referencia otras transiciones.
-                treat_as_word: true, // Define si el token debe ser evaluado como palabra, o iterado letra por letra.
-            },
-            A: {
-                next: [], // Se deja vació en caso de no hacer referencia a alguna regla, NO ELIMINAR EL CAMPO, O PONER NULO
-                reg: /^str$/,
-                treat_as_word: true
-            },
-            A1: {
-                next: [],
-                reg: /^num$/,
-                treat_as_word: true
-            },
-            A2: {
-                next: [],
-                reg: /^bool$/,
-                treat_as_word: true
-            },
-            B: {
-                next: [
-                    ["PA", "C"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            B1: {
-                next: [
-                    ["PA", "C1"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            B2: {
-                next: [
-                    ["PA", "C2"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            PA: {
-                next: [
-                    ["L", "PA"],
-                    [null] // null == Epsilón, se usa nulo por comodidas y para facilitar validaciones.
-                ],
-                reg: null,
-                treat_as_word: false
-            },
-            C1: {
-                next: [
-                    ["DP", "D1"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            C2: {
-                next: [
-                    ["DP", "D2"]
-                ]
-            },
-            L: {
-                next: [],
-                reg: /^[a-zA-Z]$/,
-                treat_as_word: false
-            },
-            D1: {
-                next: [
-                    ["NU", "PC"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            D2: {
-                next: [
-                    ["E2", "PC"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            C: {
-                next: [
-                    ["DP", "E"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            NU: {
-                next: [
-                    ["D", "NU"],
-                    [null]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            E2: {
-                next: [],
-                reg: /^(true|false)$/,
-                treat_as_word: true
-            },
-            DP: {
-                next: [],
-                reg: /^:$/,
-                treat_as_word: true
-            },
-            D: {
-                next: [],
-                reg: /^[0-9]$/,
-                treat_as_word: false
-            },
-            E: {
-                next: [
-                    ["F", "G"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            F: {
-                next: [],
-                reg: /^"$/,
-                treat_as_word: true
-            },
-            G: {
-                next: [
-                    ["PA", "H"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            H: {
-                next: [
-                    ["F", "PC"]
-                ],
-                reg: null,
-                treat_as_word: true
-            },
-            PC: {
-                next: [],
-                reg: /^;$/,
-                treat_as_word: true,
-                last_transition: true
-            }
-        },
-
-    }
-
     current_rule_group_index = -1
     current_structure_key = null
     current_state = null
@@ -234,11 +82,11 @@ class Automaton {
             }
             this.tokens.shift()
         }
-        if(this.scope.length > 0){
-            throw new Error("Missing } characters.")
+        if (this.scope.length > 0) {
+            this.__say_error("Missing } characters.")
         }
         if (this.current_rule.length) {
-            throw new Error("Se esparaban más carácteres.")
+            this.__say_error("Se esparaban más carácteres.")
         }
         this.__add_output_stack('success', "Código correcto!")
     }
@@ -252,9 +100,9 @@ class Automaton {
 
     async __analize_token(token) {
 
-        if(token === '}'){
-            if(this.scope.length < 1){
-                throw new Error("Character } unexpected")
+        if (token === '}') {
+            if (this.scope.length < 1) {
+                this.__say_error("Character } unexpected")
             }
 
             this.scope.pop()
@@ -270,12 +118,12 @@ class Automaton {
     }
 
     async __navigate_into_grammar(token) {
-        console.log(JSON.stringify(this.current_rule))
-
+        this.__print_stack(this.current_rule)
+        console.log(token)
 
 
         if (this.current_rule.length < 1) {
-            throw new Error("Este es un error porque aun no sé que hacer en esta parte \n Array de reglas vacías")
+            this.__say_error("Este es un error porque aun no sé que hacer en esta parte \n Array de reglas vacías")
         }
 
         const current_group_of_rule = this.current_rule[this.current_rule.length - 1][0]
@@ -285,7 +133,7 @@ class Automaton {
             this.current_rule.push(first_rule_under_review.next)
             this.tokens[0].unshift(token)
             return
-            throw new Error("Este es un error porque aun no sé que hacer en esta parte \n No tiene expresion regular, no es terminal pues")
+            this.__say_error("Este es un error porque aun no sé que hacer en esta parte \n No tiene expresion regular, no es terminal pues")
         }
 
         if (!first_rule_under_review.treat_as_word) {
@@ -305,14 +153,18 @@ class Automaton {
                 this.current_structure_key = null
                 this.current_state = null
                 this.current_rule = []
-                if(first_rule_under_review.scopable){
+                if (first_rule_under_review.scopable) {
                     this.scope.push("a")
                 }
                 await this.load_gramar()
                 return
             }
+        }
+        else if (this.current_rule[this.current_rule.length - 1].length === 1) {
+            this.__say_error("Carácter inválido: " + token)
         } else {
-            throw new Error("Carácter inválido: " + token)
+            this.current_rule[this.current_rule.length - 1].shift()
+            this.tokens[0].unshift(token)
         }
 
     }
@@ -326,7 +178,7 @@ class Automaton {
         const current_char = token_as_array[0]
         token_as_array.shift()
 
-        console.log(JSON.stringify(this.current_rule))
+        this.__print_stack(this.current_rule)
         const first_key_to_check = this.current_rule[this.current_rule.length - 1]
         for (let alternatives = 0; alternatives < this.current_rule[this.current_rule.length - 1].length; alternatives++) {
             const key_to_search_into_grammar = first_key_to_check[alternatives][0];
@@ -336,7 +188,7 @@ class Automaton {
                     this.current_rule.pop()
                     return true
                 }
-                throw new Error(`Unexpected char ${current_char}`)
+                this.__say_error(`Unexpected char ${current_char}`)
             }
 
             const rule = this.grammar[this.current_structure_key][key_to_search_into_grammar]
@@ -366,20 +218,20 @@ class Automaton {
 
         if (!is_validate) {
             console.error(first_key_to_check)
-            throw new Error("Illega character: " + current_char)
+            this.__say_error("Illega character: " + current_char)
         }
 
 
         if (this.max_recursive_functions_call <= 0) {
             console.warn("Este es un error totalmente intencionado. Este lexer usa recursividad para evaluar el nombre de carácteres, cuando se excede el número máximo de llamadas permitido, arroja el siguiente error.")
-            throw new Error("Doup! We almost died. \nThis error appears when a variable name is too large and exceeds the total number of allowed references. \nYou can set the number called in the 'max_recursive_functions_call' property.")
+            this.__say_error("Doup! We almost died. \nThis error appears when a variable name is too large and exceeds the total number of allowed references. \nYou can set the number called in the 'max_recursive_functions_call' property.")
         }
 
         if (this.__char_by_char_analizer(token_as_array)) {
             if (can_i_remove) {
                 this.current_rule.pop()
             }
-            console.log(JSON.stringify(this.current_rule))
+            this.__print_stack(this.current_rule)
             return true
         }
     }
@@ -420,7 +272,7 @@ class Automaton {
         }
 
         if (!this.current_structure_key) {
-            throw new Error("No se pudo encontrar una estructura válida para este token: " + token);
+            this.__say_error("No se pudo encontrar una estructura válida para este token: " + token);
         }
     }
 
@@ -450,11 +302,25 @@ class Automaton {
     }
 
     __update_first_element_stack_input() {
-
         this.visual_input_stack.firstChild.classList.add('active')
     }
 
     __remove_first_element_stack_input() {
         this.visual_input_stack.firstChild.remove()
+    }
+
+    __say_error(message) {
+        this.__add_output_stack("error", message)
+        throw new Error(message)
+    }
+
+    __print_stack(stack) {
+        console.log(JSON.stringify(stack))
+        this.visual_input_stack.innerHTML = ''
+        stack.map((item)=>{
+            const elemento = document.createElement('li')
+            elemento.textContent = JSON.stringify(item)
+            this.visual_input_stack.appendChild(elemento)
+        })
     }
 }
